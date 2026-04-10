@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NORVO — Het CRM dat jouw bedrijf laat groeien</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A0A;
+  --surface: #111111;
+  --surface-2: #1A1A1A;
+  --border: #222222;
+  --text: #F5F5F3;
+  --text-muted: #888888;
+  --accent: #E8FF59;
+  --danger: #FF4D4D;
+  --danger-glow: rgba(255,77,77,0.10);
+  --danger-border: rgba(255,77,77,0.22);
+  --solve: #4DFFB4;
+  --solve-glow: rgba(77,255,180,0.07);
+  --solve-border: rgba(77,255,180,0.18);
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--text);
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 40px; display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,10,10,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.nav-logo { font-weight: 700; font-size: 22px; letter-spacing: 3px; color: var(--text); text-decoration: none; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.25s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent) !important; color: var(--bg) !important;
+  padding: 10px 24px !important; border-radius: 50px !important;
+  font-weight: 600 !important; font-size: 13px !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(232,255,89,0.25); }
+
+/* HERO */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  padding: 140px 24px 80px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(232,255,89,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 18px; border-radius: 50px;
+  border: 1px solid var(--border); background: var(--surface);
+  font-size: 13px; color: var(--text-muted); margin-bottom: 36px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+.hero h1 {
+  font-family: 'Instrument Serif', serif; font-size: clamp(44px, 7vw, 82px);
+  line-height: 1.05; font-weight: 400; max-width: 800px; margin-bottom: 24px;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p {
+  font-size: clamp(16px, 2vw, 19px); color: var(--text-muted);
+  max-width: 520px; line-height: 1.65; margin-bottom: 44px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.hero-actions { display: flex; gap: 14px; align-items: center; animation: fadeUp 0.8s 0.45s ease both; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--bg); padding: 16px 36px;
+  border-radius: 50px; font-size: 15px; font-weight: 600;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.25s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,255,89,0.2); }
+.btn-primary svg { width: 16px; height: 16px; }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text-muted); padding: 16px 28px; font-size: 15px;
+  font-weight: 500; text-decoration: none; cursor: pointer; background: none; border: none;
+  transition: color 0.25s;
+}
+.btn-secondary:hover { color: var(--text); }
+
+.hero-proof { margin-top: 64px; display: flex; gap: 40px; align-items: center; animation: fadeUp 0.8s 0.6s ease both; }
+.hero-proof .stat { text-align: center; }
+.hero-proof .stat-num { font-family: 'Instrument Serif', serif; font-size: 32px; color: var(--text); }
+.hero-proof .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.hero-proof .divider { width: 1px; height: 40px; background: var(--border); }
+
+/* LOGOS */
+.logos { padding: 60px 40px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+.logos p { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 32px; }
+.logos-row { display: flex; justify-content: center; align-items: center; gap: 56px; flex-wrap: wrap; opacity: 0.4; }
+.logo-item { font-weight: 700; font-size: 18px; letter-spacing: 2px; color: var(--text); }
+
+/* SECTION LABEL */
+.section-label { font-size: 12px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent); margin-bottom: 20px; font-weight: 600; }
+.section-label.danger { color: var(--danger); }
+
+/* PROBLEM vs SOLUTION */
+.problem { padding: 120px 40px; max-width: 1100px; margin: 0 auto; }
+.problem .section-header { text-align: center; margin-bottom: 64px; }
+.problem h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.15; font-weight: 400; margin-bottom: 20px; }
+.problem .section-header p { font-size: 17px; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+.vs-container { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; }
+
+.vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 28px; }
+.vs-divider .line { width: 1px; flex: 1; background: var(--border); }
+.vs-divider .vs-badge {
+  padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 50px; background: var(--bg); white-space: nowrap;
+}
+
+.pain-column, .solve-column { display: flex; flex-direction: column; gap: 16px; }
+
+.col-header {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pain-column .col-header { color: var(--danger); }
+.solve-column .col-header { color: var(--solve); }
+.col-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+.pain-card {
+  background: linear-gradient(135deg, var(--danger-glow) 0%, var(--surface) 100%);
+  border: 1px solid var(--danger-border); border-radius: var(--radius); padding: 28px 24px;
+  transition: transform 0.3s;
+}
+.pain-card:hover { transform: translateY(-2px); }
+.pain-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(255,77,77,0.1); display: flex;
+  align-items: center; justify-content: center; margin-bottom: 16px; font-size: 18px;
+}
+.pain-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.redline { color: var(--danger); text-decoration: line-through; text-decoration-color: var(--danger); }
+.pain-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+.solve-card {
+  background: linear-gradient(135deg, var(--solve-glow) 0%, var(--surface) 100%);
+  border: 1px solid var(--solve-border); border-radius: var(--radius); padding: 28px 24px;
+  transition: transform 0.3s;
+}
+.solve-card:hover { transform: translateY(-2px); }
+.solve-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(77,255,180,0.08); display: flex;
+  align-items: center; justify-content: center; margin-bottom: 16px; font-size: 18px;
+}
+.solve-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.solve-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+/* FEATURES */
+.features { padding: 120px 40px; max-width: 1100px; margin: 0 auto; }
+.features .section-header { text-align: center; margin-bottom: 72px; }
+.features h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; margin-bottom: 16px; }
+.features .section-header p { font-size: 17px; color: var(--text-muted); max-width: 500px; margin: 0 auto; line-height: 1.65; }
+
+.feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 44px 36px;
+  position: relative; overflow: hidden; transition: border-color 0.3s;
+}
+.feature-card:hover { border-color: rgba(232,255,89,0.15); }
+.feature-card.wide { grid-column: span 2; }
+.feature-num { font-family: 'Instrument Serif', serif; font-size: 56px; color: rgba(232,255,89,0.08); position: absolute; top: 20px; right: 28px; }
+.feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+.feature-card h3 span { color: var(--accent); }
+.feature-card p { font-size: 15px; color: var(--text-muted); line-height: 1.65; max-width: 480px; }
+.feature-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.feature-tag { padding: 6px 14px; border-radius: 50px; border: 1px solid var(--border); font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+/* HOW */
+.how { padding: 120px 40px; max-width: 900px; margin: 0 auto; text-align: center; }
+.how h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; margin-bottom: 64px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left; }
+.step { padding: 36px 28px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+.step-num { font-family: 'Instrument Serif', serif; font-size: 42px; color: var(--accent); line-height: 1; margin-bottom: 20px; }
+.step h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+.step p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+/* PRICING */
+.pricing { padding: 120px 40px; max-width: 1000px; margin: 0 auto; text-align: center; }
+.pricing h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; margin-bottom: 16px; }
+.pricing > p { font-size: 17px; color: var(--text-muted); margin-bottom: 56px; }
+.pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 780px; margin: 0 auto; }
+
+.price-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 44px 36px; text-align: left;
+  position: relative; transition: border-color 0.3s, transform 0.3s;
+}
+.price-card:hover { transform: translateY(-3px); }
+.price-card.featured {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(232,255,89,0.03) 0%, var(--surface) 100%);
+}
+.price-card.featured::after {
+  content: 'BESTE DEAL'; position: absolute; top: 20px; right: 20px;
+  background: var(--accent); color: var(--bg);
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 4px 12px; border-radius: 50px;
+}
+.price-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; }
+.price-amount { font-family: 'Instrument Serif', serif; font-size: 48px; line-height: 1; margin-bottom: 4px; }
+.price-amount span { font-size: 18px; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
+.price-type { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+.price-highlight {
+  display: inline-block; padding: 4px 14px; border-radius: 50px;
+  font-size: 12px; font-weight: 600; margin-bottom: 24px;
+}
+.price-highlight.green { background: rgba(77,255,180,0.1); color: var(--solve); border: 1px solid var(--solve-border); }
+.price-highlight.neutral { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.price-features { list-style: none; margin-bottom: 32px; }
+.price-features li {
+  font-size: 14px; color: var(--text-muted); padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: center; gap: 10px;
+}
+.price-features li::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: 12px; }
+.price-cta {
+  display: block; width: 100%; padding: 14px; border-radius: 50px;
+  text-align: center; font-size: 14px; font-weight: 600;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.price-cta.primary { background: var(--accent); color: var(--bg); }
+.price-cta.primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(232,255,89,0.2); }
+.price-cta.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.price-cta.secondary:hover { border-color: var(--text-muted); }
+
+/* TESTIMONIALS */
+.testimonials { padding: 120px 40px; max-width: 1000px; margin: 0 auto; text-align: center; }
+.testimonials h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; margin-bottom: 56px; }
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; }
+.testimonial-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; }
+.testimonial-card .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; margin-bottom: 16px; }
+.testimonial-card blockquote { font-size: 14.5px; line-height: 1.65; color: var(--text); margin-bottom: 20px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: var(--accent);
+}
+.testimonial-name { font-size: 13px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-muted); }
+
+/* FAQ */
+.faq { padding: 120px 40px; max-width: 680px; margin: 0 auto; }
+.faq h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; text-align: center; margin-bottom: 56px; }
+.faq-item { border-bottom: 1px solid var(--border); padding: 24px 0; cursor: pointer; }
+.faq-q { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 500; }
+.faq-q span { transition: transform 0.3s; color: var(--text-muted); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-a p { font-size: 14.5px; color: var(--text-muted); line-height: 1.65; padding-top: 16px; }
+.faq-item.open .faq-a { max-height: 200px; }
+.faq-item.open .faq-q span { transform: rotate(45deg); }
+
+/* FINAL CTA */
+.final-cta { padding: 120px 40px; text-align: center; position: relative; }
+.final-cta::before {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(232,255,89,0.05) 0%, transparent 70%); pointer-events: none;
+}
+.final-cta h2 { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 400; max-width: 600px; margin: 0 auto 20px; line-height: 1.1; }
+.final-cta h2 em { font-style: italic; color: var(--accent); }
+.final-cta p { font-size: 17px; color: var(--text-muted); margin-bottom: 40px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+/* FOOTER */
+footer {
+  padding: 60px 40px 40px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1100px; margin: 0 auto;
+}
+footer .footer-logo { font-weight: 700; font-size: 18px; letter-spacing: 3px; }
+footer .footer-logo span { color: var(--accent); }
+footer .footer-links { display: flex; gap: 28px; }
+footer .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: color 0.25s; }
+footer .footer-links a:hover { color: var(--text); }
+footer .footer-copy { font-size: 12px; color: var(--text-muted); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 20px 60px; }
+  .hero-proof { flex-direction: column; gap: 20px; }
+  .hero-proof .divider { width: 40px; height: 1px; }
+  .vs-container { grid-template-columns: 1fr; gap: 40px; }
+  .vs-divider { flex-direction: row; padding: 16px 0; }
+  .vs-divider .line { height: 1px; width: 100%; flex: 1; }
+  .feature-row { grid-template-columns: 1fr; }
+  .feature-card.wide { grid-column: span 1; }
+  .steps { grid-template-columns: 1fr; }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+  .problem, .features, .how, .pricing, .testimonials, .faq, .final-cta { padding-left: 20px; padding-right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">NORV<span>O</span></a>
+  <div class="nav-links">
+    <a href="#features">Functies</a>
+    <a href="#hoe">Hoe het werkt</a>
+    <a href="#prijzen">Prijzen</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="nav-cta">Gratis demo →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Al 50+ bedrijven vertrouwen op NORVO</div>
+  <h1>Stop met klanten <em>verliezen</em> aan chaos</h1>
+  <p>NORVO geeft jouw bedrijf één systeem voor leads, opvolging en planning. Geen Excel. Geen vergeten offertes. Gewoon meer werk.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">
+      Plan een gratis demo
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <a href="#hoe" class="btn-secondary">Bekijk hoe het werkt ↓</a>
+  </div>
+  <div class="hero-proof">
+    <div class="stat"><div class="stat-num">3×</div><div class="stat-label">Meer opvolging</div></div>
+    <div class="divider"></div>
+    <div class="stat"><div class="stat-num">40%</div><div class="stat-label">Minder gemiste leads</div></div>
+    <div class="divider"></div>
+    <div class="stat"><div class="stat-num">5 min</div><div class="stat-label">Setup per klant</div></div>
+  </div>
+</section>
+
+<section class="logos">
+  <p>Bedrijven die groeien met NORVO</p>
+  <div class="logos-row">
+    <div class="logo-item">BEDRIJF A</div>
+    <div class="logo-item">BEDRIJF B</div>
+    <div class="logo-item">BEDRIJF C</div>
+    <div class="logo-item">BEDRIJF D</div>
+    <div class="logo-item">BEDRIJF E</div>
+  </div>
+</section>
+
+<!-- PAIN vs SOLUTION -->
+<section class="problem">
+  <div class="section-header">
+    <div class="section-label danger">Herkenbaar?</div>
+    <h2>Dit kost je elke maand klanten — en geld</h2>
+    <p>Links wat de meeste bedrijven doen. Rechts wat er gebeurt als je NORVO inschakelt.</p>
+  </div>
+  <div class="vs-container">
+    <div class="pain-column">
+      <div class="col-header"><span class="col-dot" style="background:var(--danger)"></span> Zonder NORVO</div>
+      <div class="pain-card">
+        <div class="pain-icon">📱</div>
+        <h3>Leads <span class="redline">vergeten</span></h3>
+        <p>Iemand belt, je bent onderweg. Tegen de avond ben je de naam kwijt. Die offerte gaat naar je concurrent.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📋</div>
+        <h3>Opvolging <span class="redline">te laat</span></h3>
+        <p>Je stuurt een offerte en hoort niks. Drie weken later bel je terug — ze hebben al iemand anders gekozen.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📊</div>
+        <h3>Geen <span class="redline">overzicht</span></h3>
+        <p>Hoeveel offertes staan open? Wat is je omzet deze maand? Je weet het pas als het te laat is.</p>
+      </div>
+    </div>
+    <div class="vs-divider">
+      <div class="line"></div>
+      <div class="vs-badge">VS</div>
+      <div class="line"></div>
+    </div>
+    <div class="solve-column">
+      <div class="col-header"><span class="col-dot" style="background:var(--solve)"></span> Met NORVO</div>
+      <div class="solve-card">
+        <div class="solve-icon">⚡</div>
+        <h3>Elke lead automatisch gevangen</h3>
+        <p>Alle aanvragen komen in één systeem. SMS, e-mail, formulier — alles op één plek. Niks valt weg.</p>
+      </div>
+      <div class="solve-card">
+        <div class="solve-icon">🔄</div>
+        <h3>Opvolging in seconden, automatisch</h3>
+        <p>NORVO stuurt meteen een bevestiging en herinnert je wanneer je moet nabellen. Jij hoeft niks te onthouden.</p>
+      </div>
+      <div class="solve-card">
+        <div class="solve-icon">📈</div>
+        <h3>Alles in één dashboard</h3>
+        <p>Zie in real-time hoeveel leads, offertes en omzet je hebt. Op je telefoon, altijd en overal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-header">
+    <div class="section-label">Wat je krijgt</div>
+    <h2>Alles wat je nodig hebt, niks wat je niet nodig hebt</h2>
+    <p>Geen 200 functies die je nooit gebruikt. Alleen de tools die je meer werk opleveren.</p>
+  </div>
+  <div class="feature-row">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <h3>Automatische <span>lead-opvolging</span></h3>
+      <p>Elke nieuwe aanvraag krijgt automatisch een opvolgmail en herinnering. Jij hoeft niks te doen — het systeem werkt terwijl jij bezig bent.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">SMS & e-mail</span>
+        <span class="feature-tag">Automatisch</span>
+        <span class="feature-tag">Gepersonaliseerd</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <h3>Slimme <span>pipeline</span></h3>
+      <p>Zie in één oogopslag welke leads nieuw zijn, waar je een offerte hebt gestuurd, en wie je moet nabellen. Drag & drop, klaar.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Visueel overzicht</span>
+        <span class="feature-tag">Drag & drop</span>
+      </div>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-card wide">
+      <div class="feature-num">03</div>
+      <h3>Offertes, facturen & <span>reviews</span> in één plek</h3>
+      <p>Maak en verstuur offertes rechtstreeks vanuit NORVO. Na afloop vraagt het systeem automatisch een Google Review aan. Meer sterren = meer klanten die jou vinden.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Offertes</span>
+        <span class="feature-tag">Facturen</span>
+        <span class="feature-tag">Google Reviews</span>
+        <span class="feature-tag">Online reputatie</span>
+      </div>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <h3>Online <span>agenda</span></h3>
+      <p>Klanten boeken zelf een afspraak via jouw link. Geen heen-en-weer gebel meer. Werkt op je telefoon.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <h3>Jouw eigen <span>website</span></h3>
+      <p>Krijg een professionele landingspagina die direct leads binnenbrengt. Geen aparte webdesigner nodig.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how" id="hoe">
+  <div class="section-label">Hoe het werkt</div>
+  <h2>In 3 stappen operationeel</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Wij bouwen alles op</h3>
+      <p>Na een kort gesprek richten wij jouw volledige NORVO-systeem in. Aangepast aan jouw bedrijf en werkwijze.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Je leert het in 30 min</h3>
+      <p>Geen wekenlange trainingen. We lopen het samen door en je bent klaar. Het is simpeler dan je gsm.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Je haalt meer werk binnen</h3>
+      <p>Leads worden automatisch opgevolgd, offertes gaan sneller uit, en klanten laten reviews achter. Jij groeit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="prijzen">
+  <div class="section-label">Kies jouw plan</div>
+  <h2>Investeer in groei, niet in gedoe</h2>
+  <p>Twee opties. Allebei alles inbegrepen. Jij kiest wat het best past.</p>
+  <div class="pricing-cards">
+    <div class="price-card">
+      <div class="price-label">Maandelijks</div>
+      <div class="price-amount">€1.500 <span>/maand</span></div>
+      <div class="price-type">Flexibel, maandelijks opzegbaar</div>
+      <div class="price-highlight neutral">+ €3.000 eenmalige instapkost</div>
+      <ul class="price-features">
+        <li>Volledig ingericht CRM-systeem</li>
+        <li>Aangepaste automations</li>
+        <li>Eigen branding & website</li>
+        <li>Onbeperkt leads & contacten</li>
+        <li>Automatische opvolging</li>
+        <li>Google Review automation</li>
+        <li>Support via WhatsApp</li>
+      </ul>
+      <a href="#contact" class="price-cta secondary">Meer info</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-label">Jaarlijks</div>
+      <div class="price-amount">€1.500 <span>/maand</span></div>
+      <div class="price-type">Jaarlijks afgerekend</div>
+      <div class="price-highlight green">✓ Gratis instap — bespaar €3.000</div>
+      <ul class="price-features">
+        <li>Volledig ingericht CRM-systeem</li>
+        <li>Aangepaste automations</li>
+        <li>Eigen branding & website</li>
+        <li>Onbeperkt leads & contacten</li>
+        <li>Automatische opvolging</li>
+        <li>Google Review automation</li>
+        <li>Support via WhatsApp</li>
+        <li>Prioriteit bij updates & features</li>
+      </ul>
+      <a href="#contact" class="price-cta primary">Start nu →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Resultaten</div>
+  <h2>Wat ondernemers zeggen</h2>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Ik vergat de helft van mijn leads op te volgen. Nu doet NORVO dat voor mij. Vorige maand 4 extra klanten binnengehaald."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">KV</div>
+        <div><div class="testimonial-name">Kevin V.</div><div class="testimonial-role">Zaakvoerder — Antwerpen</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Eindelijk overzicht. Ik zie exact hoeveel offertes openstaan en welke klanten ik moet nabellen. Simpel en snel."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">PD</div>
+        <div><div class="testimonial-name">Pieter D.</div><div class="testimonial-role">Zaakvoerder — Gent</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"De automatische Google Reviews zijn goud waard. Ik sta nu bovenaan in mijn regio. Dat scheelt enorm."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">ML</div>
+        <div><div class="testimonial-name">Mehdi L.</div><div class="testimonial-role">Zaakvoerder — Brussel</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-label">Veelgestelde vragen</div>
+  <h2>Nog vragen?</h2>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Moet ik technisch zijn om NORVO te gebruiken? <span>+</span></div>
+    <div class="faq-a"><p>Nee. Als je WhatsApp en Facebook kan gebruiken, dan kan je NORVO gebruiken. Wij richten alles voor je in en lopen het samen door in 30 minuten.</p></div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Werkt het op mijn smartphone? <span>+</span></div>
+    <div class="faq-a"><p>Ja. NORVO werkt volledig op je gsm, tablet en computer. Je hebt altijd toegang, ook onderweg.</p></div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Wat als ik al een website heb? <span>+</span></div>
+    <div class="faq-a"><p>Dan koppelen we NORVO aan je bestaande website zodat leads automatisch in je systeem terechtkomen. Je hoeft niks te veranderen.</p></div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Kan ik maandelijks opzeggen? <span>+</span></div>
+    <div class="faq-a"><p>Bij het maandelijks plan wel, ja. Maar eerlijk: zodra je ziet hoeveel leads je niet meer mist, wil je niet meer terug.</p></div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Hoeveel tijd kost het per dag? <span>+</span></div>
+    <div class="faq-a"><p>Maximaal 10 minuten. De meeste opvolging gaat automatisch. Jij hoeft alleen af en toe je pipeline te checken en te bellen waar nodig.</p></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contact">
+  <div class="section-label">Klaar om te groeien?</div>
+  <h2>Laat geen klant meer <em>door je vingers</em> glippen</h2>
+  <p>Plan een gratis demo van 15 minuten. Geen verplichtingen, geen verkooppraatje. Gewoon zien hoe het werkt.</p>
+  <a href="#" class="btn-primary" style="margin: 0 auto;">
+    Plan mijn gratis demo
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+  </a>
+</section>
+
+<footer>
+  <div class="footer-logo">NORV<span>O</span></div>
+  <div class="footer-links">
+    <a href="#features">Functies</a>
+    <a href="#prijzen">Prijzen</a>
+    <a href="#faq">FAQ</a>
+    <a href="#">Privacy</a>
+  </div>
+  <div class="footer-copy">© 2026 NORVO. Alle rechten voorbehouden.</div>
+</footer>
+
+</body>
+</html>
